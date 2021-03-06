@@ -6,9 +6,12 @@ import time
 import math
 
 
-def colors_xD(u_range, minimum, num):
+def colors_xD(u_range, minimum, num, s):
   final= ""
   line = ""
+  space = " "
+  if s == "n":
+    space = ""
   lin_num = int(u_range/minimum)
   for x in range(0, lin_num):
     random_nums = []
@@ -26,11 +29,52 @@ def colors_xD(u_range, minimum, num):
       if plc >= 100:
         spaces = ""
       if num == True:
-        line += str(stylize(f"{plc}{spaces} - ▮▮▮▮", colored.fg(random_num)) + " ")
+        line += str(stylize(f"{plc}{spaces} - ▮▮▮▮", colored.fg(random_num)) + space)
       else:
-        line += str(stylize(f"▮▮▮▮", colored.fg(random_num)) + " ")
+        line += str(stylize(f"▮▮▮▮", colored.fg(random_num)) + space)
     final += line + "\n"
-  time.sleep(minimum/10)
+  time.sleep(minimum/5)
+  final.replace("�", "")
+  return final
+
+def nice_colors(u_range, minimum, num, s):
+  final= ""
+  line = ""
+  space = " "
+  if s == "n":
+    space = ""
+  rand_save = 0
+  lin_num = int(u_range/minimum)
+  for x in range(0, lin_num):
+    random_nums = []
+    line = ""
+    for y in range(1,minimum + 1):
+      random_num = random.randint(0,255)
+      if y == 1:
+        rand_save = random_num
+      while random_num in random_nums:
+        random_num = random.randint(0,255)
+      random_nums.append(random_num)
+      plc = lin_num*(x) + y
+      if plc < 10:
+        spaces = "  "
+      if plc >= 10 and plc < 100:
+        spaces = " "
+      if plc >= 100:
+        spaces = ""
+      if x%2 == 1:
+        if y == 1:
+          line += str(stylize(f"▮▮", colored.fg(random_num)) + space)
+        elif y!= 1:
+          line += str(stylize(f"▮▮▮▮", colored.fg(random_num)) + space)
+      else:
+        if y == minimum:
+          pass
+        line += str(stylize(f"▮▮▮▮", colored.fg(random_num)) + space)
+    if x%2 == 1:
+          line += str(stylize(f"▮", colored.fg(rand_save)))
+    final += line + "\n"
+  time.sleep(minimum/5)
   final.replace("�", "")
   return final
 
@@ -96,11 +140,21 @@ def p(usr_range):
 
 def main():
   print("I do colors :)\n")
-  usr_range = range_input()
-  nums = num()
-  minimum = factorer(usr_range)
-  color_map = colors_xD(usr_range, minimum, nums)
-  poss = p
-  print(f"\n{color_map}\n\nThere are {poss} possible permutations of this color map")
+  end_seq = ""
+  while end_seq == "":
+    usr_range = range_input()
+    spaces = input("spaces (n for no):")
+    nums = num()
+    minimum = factorer(usr_range)
+    if usr_range/minimum%2 == 1:
+      color_map = nice_colors(usr_range, minimum, nums, spaces)
+    else:
+      color_map = colors_xD(usr_range, minimum, nums, spaces)
+    poss = p(usr_range)
+    print(f"\n{color_map}\n\nThere are {poss} possible permutations of this color map\n\t\tHit Enter to continue\t\t\n")
+  for x in range(0,6):
+    end_of = "."*x
+    print(end_of , end = "\r")
+    time.sleep(1)
 
 main()
