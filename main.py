@@ -5,6 +5,9 @@ import random
 import time
 import math
 
+symbol = "\u25AE"
+symbol_2 = symbol + symbol
+symbol_4 = symbol_2 + symbol_2
 
 def colors_xD(u_range, minimum, num, s):
   final= ""
@@ -29,9 +32,9 @@ def colors_xD(u_range, minimum, num, s):
       if plc >= 100:
         spaces = ""
       if num == True:
-        line += str(stylize(f"{plc}{spaces} - ▮▮▮▮", colored.fg(random_num)) + space)
+        line += str(stylize(f"{plc}{spaces} - {symbol_4}", colored.fg(random_num)) + space)
       else:
-        line += str(stylize(f"▮▮▮▮", colored.fg(random_num)) + space)
+        line += str(stylize(f"{symbol_4}", colored.fg(random_num)) + space)
     final += line + "\n"
   time.sleep(minimum/5)
   final.replace("�", "")
@@ -64,15 +67,15 @@ def nice_colors(u_range, minimum, num, s):
         spaces = ""
       if x%2 == 1:
         if y == 1:
-          line += str(stylize(f"▮▮", colored.fg(random_num)) + space)
+          line += str(stylize(f"{symbol_2}", colored.fg(random_num)) + space)
         elif y!= 1:
-          line += str(stylize(f"▮▮▮▮", colored.fg(random_num)) + space)
+          line += str(stylize(f"{symbol_4}", colored.fg(random_num)) + space)
       else:
         if y == minimum:
           pass
-        line += str(stylize(f"▮▮▮▮", colored.fg(random_num)) + space)
+        line += str(stylize(f"{symbol_4}", colored.fg(random_num)) + space)
     if x%2 == 1:
-          line += str(stylize(f"▮", colored.fg(rand_save)))
+          line += str(stylize(f"{symbol}", colored.fg(rand_save)))
     final += line + "\n"
   time.sleep(minimum/5)
   final.replace("�", "")
