@@ -5,6 +5,7 @@ import random
 import time
 import math
 
+MENU = "\n1: rectangle of random colors\n2: rectangular permutation of all 256 colors"
 symbol = "\u25AE"
 symbol_2 = symbol + symbol
 symbol_4 = symbol_2 + symbol_2
@@ -81,18 +82,21 @@ def nice_colors(u_range, minimum, num, s):
   final.replace("�", "")
   return final
 
-def range_input():
+def range_input(low, high, reason = ""):
   play = False
   while play == False:
-    usr_range = input("number or colors (? for range): ")
+    if reason == "":
+      usr_range = input("number or colors (? for range): ")
+    elif reason == "m":
+       usr_range = input("Your choice: ")
     if usr_range == "?":
-      print("Range between 1 and 256, any number greater than 256 will be 256, any less than 1 will go to 1")
+      print(f"Range between {low} and {high}, any number greater than {high} will be {high}, any less than {low} will go to {low}")
     try:
       usr_range = int(usr_range)
-      if usr_range > 256:
-        usr_range = 256
-      if usr_range < 1:
-        usr_range = 1
+      if usr_range > high:
+        usr_range = high
+      if usr_range < low:
+        usr_range = low
       return usr_range
     except:
       pass
@@ -141,20 +145,57 @@ def p(usr_range):
     poss = f"{poss} e{ten_count}"
   return poss
 
+def int_input(reason):
+  is_int = False
+  while is_int == False:
+    if reason == "h":
+      integer = input("height: ")
+    if reason == "w":
+      integer = input("width: ")
+    try:
+      integer = int(integer)
+      return integer
+      is_int = True
+    except:
+      pass
+  
+def rectangle(height, width, spaces):
+  for x in range(0,height):
+    line = " "
+    rand_seed = random.randint(1,1000)
+    random.seed(rand_seed)
+    for y in range(0,width):
+      rand_num = random.randint(0,255)
+      line += str(stylize(f"{symbol_4}", colored.fg(rand_num)) + spaces)
+    rand_time = random.randint(1,10)/100
+    time.sleep(rand_time)
+    print(line)
+
 def main():
   print("I do colors :)\n")
   end_seq = ""
   while end_seq == "":
-    usr_range = range_input()
-    spaces = input("spaces (n for no):")
-    nums = num()
-    minimum = factorer(usr_range)
-    if usr_range/minimum%2 == 1:
-      color_map = nice_colors(usr_range, minimum, nums, spaces)
-    else:
-      color_map = colors_xD(usr_range, minimum, nums, spaces)
-    poss = p(usr_range)
-    print(f"\n{color_map}\n\nThere are {poss} possible permutations of this color map\n\t\tHit Enter to continue\t\t\n")
+    space = " "
+    print(MENU)
+    main_choice = range_input(1,2, "m")
+    if main_choice == 1:
+      height = int_input("h")
+      width = int_input("w")
+      spaces = input("spaces (n for no):")
+      if spaces == "n":
+        space = ""
+      rectangle(height, width, space)
+    if main_choice == 2:
+      usr_range = range_input(1, 256)
+      spaces = input("spaces (n for no):")
+      nums = num()
+      minimum = factorer(usr_range)
+      if usr_range/minimum%2 == 1 and minimum != 1:
+        color_map = nice_colors(usr_range, minimum, nums, spaces)
+      else:
+        color_map = colors_xD(usr_range, minimum, nums, spaces)
+      poss = p(usr_range)
+      print(f"\n{color_map}\n\nThere are {poss} possible permutations of this color map\n\t\tHit Enter to continue\t\t\n")
   for x in range(0,6):
     end_of = "."*x
     print(end_of , end = "\r")
