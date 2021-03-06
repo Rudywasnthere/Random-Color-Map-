@@ -83,13 +83,24 @@ def factorial(usr_range):
     poss = f"{poss} e{ten_count}"
   return poss
 
+def p(usr_range):
+  poss = 256
+  for x in range(1,usr_range):
+    poss *= (256-x)
+  if poss > 1000000000:
+    poss = str(poss)
+    ten_count = len(poss)
+    poss = poss[0:1] + "." + poss[1:5]
+    poss = f"{poss} e{ten_count}"
+  return poss
+
 def main():
   print("I do colors :)\n")
   usr_range = range_input()
   nums = num()
   minimum = factorer(usr_range)
   color_map = colors_xD(usr_range, minimum, nums)
-  poss = factorial(usr_range)
+  poss = p
   print(f"\n{color_map}\n\nThere are {poss} possible permutations of this color map")
 
 main()
