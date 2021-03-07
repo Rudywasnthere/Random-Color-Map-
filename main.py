@@ -162,14 +162,35 @@ def int_input(reason):
 def rectangle(height, width, spaces):
   for x in range(0,height):
     line = " "
-    rand_seed = random.randint(1,1000)
-    random.seed(rand_seed)
     for y in range(0,width):
       rand_num = random.randint(0,255)
       line += str(stylize(f"{symbol_4}", colored.fg(rand_num)) + spaces)
-    rand_time = random.randint(1,10)/100
+    rand_time = width/random.randint(100,400)
     time.sleep(rand_time)
     print(line)
+
+def nice_rectangle(height, width, spaces):
+  rand_save = 0
+  for x in range(0,height):
+    line = " "
+    if x%2 == 0:
+      for y in range(0,width):
+        rand_num = random.randint(0,255)
+        line += str(stylize(f"{symbol_4}", colored.fg(rand_num)) + spaces)
+      rand_time = width/random.randint(100,400)
+      time.sleep(rand_time)
+      print(line)
+    if x%2 ==1:
+      for y in range(1,width+1):
+        random_num = random.randint(0,255)
+        if y == 1:
+          rand_save = random_num
+          line += str(stylize(f"{symbol_2}", colored.fg(random_num)) + spaces)
+        elif y!= 1:
+            line += str(stylize(f"{symbol_4}", colored.fg(random_num)) + spaces)
+      line += str(stylize(f"{symbol}", colored.fg(rand_save)))
+      print(line)
+
 
 def main():
   print("I do colors :)\n")
@@ -184,7 +205,10 @@ def main():
       spaces = input("spaces (n for no):")
       if spaces == "n":
         space = ""
-      rectangle(height, width, space)
+      if height%2 == 1:
+        nice_rectangle(height, width, space)
+      if height%2 == 0:
+        rectangle(height, width, space)
     if main_choice == 2:
       usr_range = range_input(1, 256)
       spaces = input("spaces (n for no):")
@@ -196,6 +220,7 @@ def main():
         color_map = colors_xD(usr_range, minimum, nums, spaces)
       poss = p(usr_range)
       print(f"\n{color_map}\n\nThere are {poss} possible permutations of this color map\n\t\tHit Enter to continue\t\t\n")
+    end_seq = input("\t\t\t\t")
   for x in range(0,6):
     end_of = "."*x
     print(end_of , end = "\r")
