@@ -5,7 +5,7 @@ import random
 import time
 import math
 
-MENU = "\n1: rectangle of random colors\n2: rectangular permutation of all 256 colors"
+MENU = "\tChoices:\n1: rectangle of random colors\n2: rectangular permutation of all 256 colors"
 symbol = "\u25AE"
 symbol_2 = symbol + symbol
 symbol_4 = symbol_2 + symbol_2
