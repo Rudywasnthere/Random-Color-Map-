@@ -166,8 +166,8 @@ def rectangle(height, width, spaces):
       rand_num = random.randint(0,255)
       line += str(stylize(f"{symbol_4}", colored.fg(rand_num)) + spaces)
     rand_time = width/random.randint(100,400)
-    time.sleep(rand_time)
-    print(line)
+    good_length = 5*width - 1
+    print(line[0:len(line) -1])
 
 def nice_rectangle(height, width, spaces):
   rand_save = 0
