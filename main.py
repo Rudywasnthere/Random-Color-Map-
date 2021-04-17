@@ -86,7 +86,7 @@ def range_input(low, high, reason = ""):
   play = False
   while play == False:
     if reason == "":
-      usr_range = input("number or colors (? for range): ")
+      usr_range = input("number of colors [to permutate] (? for range): ")
     elif reason == "m":
        usr_range = input("Your choice: ")
     if usr_range == "?":
@@ -165,9 +165,10 @@ def rectangle(height, width, spaces):
     for y in range(0,width):
       rand_num = random.randint(0,255)
       line += str(stylize(f"{symbol_4}", colored.fg(rand_num)) + spaces)
-    rand_time = width/random.randint(100,400)
+    rand_time = width/random.randint(50,350)
     good_length = 5*width - 1
-    print(line[0:len(line) -1])
+    time.sleep(0.005*rand_time)
+    print( " " + line[0:len(line)])
 
 def nice_rectangle(height, width, spaces):
   rand_save = 0
@@ -191,6 +192,19 @@ def nice_rectangle(height, width, spaces):
       line += str(stylize(f"{symbol}", colored.fg(rand_save)))
       print(line)
 
+def print_all_colors():
+  for x in range(0,16):
+    line = ""
+    for y in range(0,16):
+      val = 16*x + y
+      line += str(stylize(f"{symbol_4}", colored.fg(val)))
+    print(line)
+
+def end_dots(num_of_dots):
+  for x in range(0,num_of_dots + 1):
+    end_of = "."*x
+    print(end_of , end = "\r")
+    time.sleep(1)
 
 def main():
   print("I do colors :)\n")
@@ -220,10 +234,13 @@ def main():
         color_map = colors_xD(usr_range, minimum, nums, spaces)
       poss = p(usr_range)
       print(f"\n{color_map}\n\nThere are {poss} possible permutations of this color map\n\t\tHit Enter to continue\t\t\n")
-    end_seq = input("\t\t\t\t")
-  for x in range(0,6):
-    end_of = "."*x
-    print(end_of , end = "\r")
-    time.sleep(1)
+    end_seq = input("\tHit Enter to continue\t")
+  print("\nGoodbye!")
+  end_dots(5)
 
-main()
+if main() != None:
+  main()
+else:
+  print("Here is every color: \n")
+  print_all_colors()
+  end_dots(3)
