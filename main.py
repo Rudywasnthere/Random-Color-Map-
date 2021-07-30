@@ -9,6 +9,7 @@ MENU = "\tChoices:\n1: rectangle of random colors\n2: rectangular permutation of
 symbol = "\u25AE"
 symbol_2 = symbol + symbol
 symbol_4 = symbol_2 + symbol_2
+tc = 0
 
 def colors_xD(u_range, minimum, num, s):
   final= ""
@@ -37,7 +38,7 @@ def colors_xD(u_range, minimum, num, s):
       else:
         line += str(stylize(f"{symbol_4}", colored.fg(random_num)) + space)
     final += line + "\n"
-  time.sleep(minimum/5)
+  time.sleep(tc * minimum/5)
   final.replace("�", "")
   return final
 
@@ -78,7 +79,7 @@ def nice_colors(u_range, minimum, num, s):
     if x%2 == 1:
           line += str(stylize(f"{symbol}", colored.fg(rand_save)))
     final += line + "\n"
-  time.sleep(minimum/5)
+  time.sleep(tc* minimum/5)
   final.replace("�", "")
   return final
 
@@ -167,7 +168,7 @@ def rectangle(height, width, spaces):
       line += str(stylize(f"{symbol_4}", colored.fg(rand_num)) + spaces)
     rand_time = width/random.randint(50,350)
     good_length = 5*width - 1
-    time.sleep(0.005*rand_time)
+    time.sleep(0.005*rand_time * tc)
     print( " " + line[0:len(line)])
 
 def nice_rectangle(height, width, spaces):
@@ -179,7 +180,7 @@ def nice_rectangle(height, width, spaces):
         rand_num = random.randint(0,255)
         line += str(stylize(f"{symbol_4}", colored.fg(rand_num)) + spaces)
       rand_time = width/random.randint(100,400)
-      time.sleep(rand_time)
+      time.sleep(rand_time * tc)
       print(line)
     if x%2 ==1:
       for y in range(1,width+1):
@@ -220,20 +221,30 @@ def main():
       if spaces == "n":
         space = ""
       if height%2 == 1:
+        t_1 = time.perf_counter()
         nice_rectangle(height, width, space)
+        t_2 = time.perf_counter()
       if height%2 == 0:
+        t_1 = time.perf_counter()
         rectangle(height, width, space)
+        t_2 = time.perf_counter()
+      print(f"That was {round((height * width)/(t_2 - t_1))} bricks per second! ")
     if main_choice == 2:
       usr_range = range_input(1, 256)
       spaces = input("spaces (n for no):")
       nums = num()
       minimum = factorer(usr_range)
       if usr_range/minimum%2 == 1 and minimum != 1:
+        t_1 = time.perf_counter()
         color_map = nice_colors(usr_range, minimum, nums, spaces)
+        t_2 = time.perf_counter()
       else:
+        t_1 = time.perf_counter()
         color_map = colors_xD(usr_range, minimum, nums, spaces)
+        t_2 = time.perf_counter()
       poss = p(usr_range)
       print(f"\n{color_map}\n\nThere are {poss} possible permutations of this color map\n\t\tHit Enter to continue\t\t\n")
+      print(f"That was {round(usr_range/(t_2 - t_1))} bricks per second! ")
     end_seq = input("\tHit Enter to continue\t")
   print("\nGoodbye!")
   end_dots(5)
